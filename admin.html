@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopXpress Admin Panel</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 15px; background: #eef2f5; }
+    .box { background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+    input, button { width: 95%; padding: 10px; margin: 6px 0; border-radius: 4px; border: 1px solid #ccc; }
+    button { background: #2980b9; color: white; border: none; font-weight: bold; cursor: pointer; }
+    .order-card { background: white; border-left: 5px solid #f39c12; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+    .Approved { border-left-color: #27ae60; }
+    .Rejected { border-left-color: #c0392b; }
+    .btn-approve { background: #27ae60; width: 48%; }
+    .btn-reject { background: #c0392b; width: 48%; }
+  </style>
+</head>
+<body>
+
+  <h2>ShopXpress Admin Dashboard</h2>
+
+  <div class="box">
+    <h3>Naya Product Add Karein</h3>
+    <input type="text" id="pTitle" placeholder="Product Ka Naam">
+    <input type="number" id="pPrice" placeholder="Keemat (Rs)">
+    <input type="text" id="pImage" placeholder="Image URL (Link)">
+    <button onclick="addProduct()">Product Upload Karein</button>
+  </div>
+
+  <div class="box">
+    <h3>Aaye Hue Orders</h3>
+    <div id="ordersList">Orders loading...</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5X70q8Ty99qnkk659HjfWNuFl2zLtD-8",
+      authDomain: "shopxpress-11644.firebaseapp.com",
+      projectId: "shopxpress-11644",
+      storageBucket: "shopxpress-11644.firebasestorage.app",
+      messagingSenderId: "641687826829",
+      appId: "1:641687826829:web:eca5e50d38c5d7faa88dc4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.addProduct = async () => {
+      const title = document.getElementById("pTitle").value;
+      const price = document.getElementById("pPrice").value;
+      const image = document.getElementById("pImage").value;
+
+      if(!title || !price) return alert("Naam aur Price likhein!");
+
+      await addDoc(collection(db, "products"), { title, price, image });
+      alert("Product Successfully Upload Ho Gaya!");
+      location.reload();
+    };
+
+    async function loadOrders() {
+      const querySnapshot = await getDocs(collection(db, "orders"));
+      const list = document.getElementById("ordersList");
+      list.innerHTML = "";
+      querySnapshot.forEach((d) => {
+        const o = d.data();
+        list.innerHTML += `
+          <div class="order-card ${o.status}">
+            <p><b>Product:</b> ${o.product}</p>
+            <p><b>Grahak:</b> ${o.customerName} (${o.phone})</p>
+            <p><b>Pata:</b> ${o.address}</p>
+            <p><b>Status:</b> ${o.status}</p>
+            <button class="btn-approve" onclick="updateStatus('${d.id}', 'Approved')">Approve</button>
+            <button class="btn-reject" onclick="updateStatus('${d.id}', 'Rejected')">Reject</button>
+          </div>
+        `;
+      });
+    }
+
+    window.updateStatus = async (id, status) => {
+      await updateDoc(doc(db, "orders", id), { status: status });
+      alert("Order Status Updated to: " + status);
+      loadOrders();
+    };
+
+    loadOrders();
+  </script>
+</body>
+</html>
