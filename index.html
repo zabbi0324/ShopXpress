@@ -1,370 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopXpress - Online Store</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f4f6f9;
-            color: #333;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: #131921;
-            color: white;
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #febd69;
-        }
-
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-            font-size: 18px;
-            background-color: #232f3e;
-            padding: 8px 15px;
-            border-radius: 20px;
-        }
-
-        .cart-count {
-            background-color: #febd69;
-            color: #111;
-            border-radius: 50%;
-            padding: 2px 7px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
-        /* Hero Banner */
-        .banner {
-            background: linear-gradient(135deg, #232f3e, #131921);
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .banner h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .banner p {
-            color: #febd69;
-            font-size: 16px;
-        }
-
-        /* Search Bar */
-        .search-container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #ddd;
-            border-radius: 25px;
-            outline: none;
-            font-size: 16px;
-        }
-
-        /* Products Grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .product-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background-color: #eee;
-        }
-
-        .product-info {
-            padding: 15px;
-        }
-
-        .product-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .product-price {
-            font-size: 18px;
-            color: #B12704;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .add-btn {
-            width: 100%;
-            background-color: #ffd814;
-            border: 1px solid #fcd200;
-            padding: 10px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .add-btn:hover {
-            background-color: #f7ca00;
-        }
-
-        /* Modal / Cart View */
-        .cart-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .cart-content {
-            background: white;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 12px;
-            padding: 20px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .close-btn {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .whatsapp-btn {
-            width: 100%;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .whatsapp-btn:hover {
-            background-color: #128C7E;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopXpress - Online Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 15px; background: #f4f4f9; }
+    h1 { text-align: center; color: #333; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; margin-top: 20px; }
+    .card { background: white; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+    .card img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; }
+    .card h3 { margin: 8px 0 4px; font-size: 16px; }
+    .card p { color: #27ae60; font-weight: bold; margin: 0 0 8px; }
+    .btn { background: #27ae60; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; width: 100%; }
+    .modal { display: none; position: fixed; top: 0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; }
+    .modal-content { background:white; padding:20px; border-radius:8px; width:90%; max-width:350px; }
+    .modal-content input { width:90%; padding:8px; margin:8px 0; }
+  </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="logo">ShopXpress</div>
-        <div class="cart-icon" onclick="toggleCart()">
-            🛒 Cart <span class="cart-count" id="cartCount">0</span>
-        </div>
-    </header>
+  <h1>ShopXpress</h1>
+  <div id="productsGrid" class="grid"><p>Products loading...</p></div>
 
-    <!-- Banner -->
-    <div class="banner">
-        <h1>Welcome to ShopXpress</h1>
-        <p>Best Deals & Fast Delivery directly to your doorstep!</p>
+  <!-- Order Modal -->
+  <div id="orderModal" class="modal">
+    <div class="modal-content">
+      <h3>Order Place Karein</h3>
+      <p id="modalProductName"></p>
+      <input type="text" id="custName" placeholder="Aapka Naam">
+      <input type="text" id="custPhone" placeholder="Mobile Number">
+      <input type="text" id="custAddress" placeholder="Pura Pata (Address)">
+      <button class="btn" onclick="submitOrder()">Confirm Order</button>
+      <button class="btn" style="background:#e74c3c; margin-top:5px;" onclick="closeModal()">Cancel</button>
     </div>
+  </div>
 
-    <!-- Search -->
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
-    </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    <!-- Products Grid -->
-    <div class="products-grid" id="productsGrid"></div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5X70q8Ty99qnkk659HjfWNuFl2zLtD-8",
+      authDomain: "shopxpress-11644.firebaseapp.com",
+      projectId: "shopxpress-11644",
+      storageBucket: "shopxpress-11644.firebasestorage.app",
+      messagingSenderId: "641687826829",
+      appId: "1:641687826829:web:eca5e50d38c5d7faa88dc4"
+    };
 
-    <!-- Cart Modal -->
-    <div class="cart-modal" id="cartModal">
-        <div class="cart-content">
-            <div class="cart-header">
-                <h3>Your Cart</h3>
-                <span class="close-btn" onclick="toggleCart()">&times;</span>
-            </div>
-            <div id="cartItems"></div>
-            <h4 style="margin-top: 15px; text-align: right;">Total: Rs. <span id="cartTotal">0</span></h4>
-            <button class="whatsapp-btn" onclick="sendWhatsAppOrder()">
-                Order via WhatsApp 💬
-            </button>
-        </div>
-    </div>
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    <script>
-        // WhatsApp Phone Number (Change this to your number without + sign)
-        const WHATSAPP_NUMBER = "923000000000"; 
+    let selectedProduct = "";
 
-        // Sample Products (Aap yahan naye products add kar sakte hain)
-        const products = [
-            { id: 1, name: "Wireless Bluetooth Earbuds", price: 2500, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500" },
-            { id: 2, name: "Smart Fitness Watch", price: 4500, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" },
-            { id: 3, name: "Casual Sneakers Shoes", price: 3200, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" },
-            { id: 4, name: "Stylish Men Leather Wallet", price: 1200, image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500" }
-        ];
+    async function loadProducts() {
+      const querySnapshot = await getDocs(collection(db, "products"));
+      const grid = document.getElementById("productsGrid");
+      grid.innerHTML = "";
+      querySnapshot.forEach((doc) => {
+        const p = doc.data();
+        grid.innerHTML += `
+          <div class="card">
+            <img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.title}">
+            <h3>${p.title}</h3>
+            <p>Rs. ${p.price}</p>
+            <button class="btn" onclick="openOrderModal('${p.title}')">Order Karein</button>
+          </div>
+        `;
+      });
+    }
 
-        let cart = [];
+    window.openOrderModal = (title) => {
+      selectedProduct = title;
+      document.getElementById("modalProductName").innerText = "Product: " + title;
+      document.getElementById("orderModal").style.display = "flex";
+    };
 
-        // Display Products
-        function displayProducts(items) {
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = '';
-            items.forEach(product => {
-                grid.innerHTML += `
-                    <div class="product-card">
-                        <img src="${product.image}" class="product-img" alt="${product.name}">
-                        <div class="product-info">
-                            <div class="product-title">${product.name}</div>
-                            <div class="product-price">Rs. ${product.price}</div>
-                            <button class="add-btn" onclick="addToCart(${product.id})">Add to Cart</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
+    window.closeModal = () => {
+      document.getElementById("orderModal").style.display = "none";
+    };
 
-        // Search Filter
-        function filterProducts() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = products.filter(p => p.name.toLowerCase().includes(query));
-            displayProducts(filtered);
-        }
+    window.submitOrder = async () => {
+      const name = document.getElementById("custName").value;
+      const phone = document.getElementById("custPhone").value;
+      const address = document.getElementById("custAddress").value;
 
-        // Add to Cart
-        function addToCart(id) {
-            const item = products.find(p => p.id === id);
-            cart.push(item);
-            updateCart();
-        }
+      if(!name || !phone || !address) return alert("Tamam details bharein!");
 
-        // Update Cart UI
-        function updateCart() {
-            document.getElementById('cartCount').innerText = cart.length;
-            const cartItemsContainer = document.getElementById('cartItems');
-            cartItemsContainer.innerHTML = '';
-            let total = 0;
+      await addDoc(collection(db, "orders"), {
+        product: selectedProduct,
+        customerName: name,
+        phone: phone,
+        address: address,
+        status: "Pending",
+        date: new Date().toLocaleString()
+      });
 
-            cart.forEach((item, index) => {
-                total += item.price;
-                cartItemsContainer.innerHTML += `
-                    <div class="cart-item">
-                        <div>
-                            <strong>${item.name}</strong>
-                            <div style="font-size:12px; color:#666;">Rs. ${item.price}</div>
-                        </div>
-                        <button style="background:red; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" onclick="removeFromCart(${index})">Remove</button>
-                    </div>
-                `;
-            });
+      alert("Aapka order receive ho gaya hai!");
+      closeModal();
+    };
 
-            document.getElementById('cartTotal').innerText = total;
-        }
-
-        // Remove from Cart
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
-
-        // Toggle Cart Modal
-        function toggleCart() {
-            const modal = document.getElementById('cartModal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        // Send Order via WhatsApp
-        function sendWhatsAppOrder() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-
-            let message = "Hello! I would like to order from ShopXpress:%0A%0A";
-            let total = 0;
-
-            cart.forEach((item, i) => {
-                message += `${i + 1}. ${item.name} - Rs. ${item.price}%0A`;
-                total += item.price;
-            });
-
-            message += `%0ATotal Amount: Rs. ${total}`;
-            
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        // Initial Load
-        displayProducts(products);
-    </script>
+    loadProducts();
+  </script>
 </body>
 </html>
