@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
         }
 
@@ -109,7 +109,7 @@
             border-collapse: collapse;
             font-size: 13px;
             text-align: left;
-            min-width: 700px;
+            min-width: 750px;
         }
 
         th {
@@ -121,6 +121,7 @@
         td {
             padding: 10px;
             border-bottom: 1px solid #ddd;
+            vertical-align: middle;
         }
 
         .btn-delete {
@@ -133,12 +134,20 @@
             font-size: 12px;
         }
 
-        .btn-delete:hover {
-            background-color: #c82333;
+        .btn-status {
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
         }
 
         .badge {
-            padding: 3px 6px;
+            padding: 4px 8px;
             border-radius: 3px;
             font-size: 11px;
             font-weight: bold;
@@ -197,7 +206,7 @@
 
         <!-- Database Records List -->
         <div class="admin-card">
-            <h3>📋 Existing Database Records</h3>
+            <h3>📋 Existing Database Records (Manage Status & Delete)</h3>
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -208,8 +217,8 @@
                             <th>Amount</th>
                             <th>Due Date</th>
                             <th>Offense</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Paid Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="adminTableBody">
@@ -221,23 +230,13 @@
     </div>
 
     <script>
-        // Default Sample Data if LocalStorage is empty
-        const defaultData = [
-            { challanNo: '28818522', plate: 'ABC-1234', cnic: '3520212345671', amount: '2000', date: '2026-09-27', offense: 'Riding Without Helmet', paid: 'Yes' },
-            { challanNo: '27090791', plate: 'ABC-1234', cnic: '3520212345671', amount: '2000', date: '2026-08-23', offense: 'Signal Disobey', paid: 'No' }
-        ];
-
         function getChallans() {
             const data = localStorage.getItem('psca_challans');
-            return data ? JSON.parse(data) : defaultData;
+            return data ? JSON.parse(data) : [];
         }
 
         function saveChallans(data) {
             localStorage.setItem('psca_challans', JSON.stringify(data));
-        }
-
-        if (!localStorage.getItem('psca_challans')) {
-            saveChallans(defaultData);
         }
 
         // Render Table Data
@@ -248,12 +247,12 @@
             adminBody.innerHTML = '';
 
             if (currentData.length === 0) {
-                adminBody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#777; padding: 20px;">کوئی ریکارڈ موجود نہیں ہے</td></tr>`;
+                adminBody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#777; padding: 20px;">Koi record mojood nahi hai</td></tr>`;
                 return;
             }
 
             currentData.forEach((item, index) => {
-                const statusBadge = item.paid === 'Yes' ? '<span class="badge badge-yes">Yes</span>' : '<span class="badge badge-no">No</span>';
+                const statusBadge = item.paid === 'Yes' ? '<span class="badge badge-yes">Yes (Paid)</span>' : '<span class="badge badge-no">No (Unpaid)</span>';
                 adminBody.innerHTML += `
                     <tr>
                         <td>${item.challanNo}</td>
@@ -264,6 +263,7 @@
                         <td>${item.offense}</td>
                         <td>${statusBadge}</td>
                         <td>
+                            <button class="btn-status" onclick="toggleStatus(${index})">Toggle Paid/Unpaid</button>
                             <button class="btn-delete" onclick="deleteChallan(${index})">Delete</button>
                         </td>
                     </tr>
@@ -282,7 +282,7 @@
             const paid = document.getElementById('admStatus').value;
 
             if (!challanNo || !plate || !cnic) {
-                alert("براہ کرم Challan No, Plate Number اور CNIC لازمی درج کریں!");
+                alert("Barah karam Challan No, Plate Number aur CNIC lazmi darj karein!");
                 return;
             }
 
@@ -290,7 +290,7 @@
             currentData.push({ challanNo, plate, cnic, amount, date, offense, paid });
             saveChallans(currentData);
 
-            alert("نیا چالان کامیابی سے محفوظ ہو گیا ہے!");
+            alert("Naya challan kamyabi se mehfooz ho gaya hai!");
             
             // Clear inputs
             document.getElementById('admChallanNo').value = '';
@@ -301,9 +301,17 @@
             renderAdminTable();
         }
 
+        // Toggle Status (Yes/No)
+        function toggleStatus(index) {
+            const currentData = getChallans();
+            currentData[index].paid = currentData[index].paid === 'Yes' ? 'No' : 'Yes';
+            saveChallans(currentData);
+            renderAdminTable();
+        }
+
         // Delete Record
         function deleteChallan(index) {
-            if (confirm("کیا آپ واقعی اس ریکارڈ کو ڈیلیٹ کرنا چاہتے ہیں؟")) {
+            if (confirm("Kya aap waqai is record ko delete karna chahte hain?")) {
                 const currentData = getChallans();
                 currentData.splice(index, 1);
                 saveChallans(currentData);
@@ -314,7 +322,6 @@
         // Initial Load
         window.onload = function() {
             renderAdminTable();
-            // Set today's date by default in date input
             document.getElementById('admDate').valueAsDate = new Date();
         };
     </script>
